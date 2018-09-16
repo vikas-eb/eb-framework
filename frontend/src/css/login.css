@@ -1,0 +1,17 @@
+.login-container-top
+{
+    min-height: 50%;
+}
+
+.login-background {
+    background: #e8f5f9;
+}
+
+.login-container {
+    margin: 5px !important;
+    background: rgba(#ffffff, .5);
+}
+
+.login-title-image {
+    margin-top: -60px;
+}

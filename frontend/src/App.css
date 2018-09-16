@@ -1,0 +1,175 @@
+
+input[type="text"], input[type="date"], option
+{
+		font-size: 14px;
+		font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
+}
+
+.same-row {
+	display: inline-block;
+}
+
+.pull-right {
+	position: absolute !important;
+	right: 20px;
+}
+
+.pull-down {
+	position: absolute !important;
+	bottom: 10px;
+}
+
+.show-hand {
+  cursor: pointer;
+}
+
+.full-width {
+	width: 100% !important;
+}
+
+.width50 {
+	width: 50% !important;
+}
+
+.width30 {
+	width: 30% !important;
+}
+
+.width20 {
+	width: 20% !important;
+}
+
+.width70 {
+	width: 30% !important;
+}
+
+.full-height {
+	height:100vh;
+}
+
+.input-box {
+	margin-left: 10px;
+	width: 300px;
+}
+
+.sane-margin-from-top {
+	margin-top: 10px !important;;
+}
+
+.sane-margin-from-top-for-mobile {
+	margin-top: 5px !important;;
+}
+
+.sane-margin-from-left {
+	margin-left: 10px !important;;
+}
+
+.sane-margin-from-right {
+	margin-right: 10px !important;;
+}
+
+.sane-margin {
+	margin-left: 10px !important;
+	margin-top: 10px !important;
+}
+
+.sane-margin-from-bottom {
+	margin-bottom: 10px !important;;
+}
+
+.big-margin-from-bottom {
+	margin-bottom: 40px !important;;
+}
+
+.no-margin {
+	margin: 0px !important;
+}
+
+.title {
+	background: #346d91;
+	height: 40px !important;
+	text-align: center;
+	line-height: 40px;
+	color: white;
+}
+
+.text-middle {
+	text-align: center;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.align-left {
+	text-align: left;
+}
+
+.all-borders {
+	border: #346d91 !important;
+	border-width: thin;
+}
+
+.align-middle {
+	position: relative;
+  top: 100%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.footer {
+	font-size: 10px;
+	text-align: center;
+}
+
+.background-test {
+	background: #e91e63 !important;
+}
+
+.links {
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.transparent {
+	background: transparent !important;
+}
+
+.box {
+	display: flex;
+	align-items: center;
+}
+
+.danger {
+	color: red;
+}
+
+.small-font {
+	font-size: 10px !important;
+}
+
+.locked {
+	color: green;
+}
+
+.bottom-border-gray {
+	border-bottom-color: #e5e6e8;
+	border-bottom-width: thin;
+	border-bottom-style: solid;
+}
+
+.bottom-border-thick-primary {
+	border-bottom-color: #346d91;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+.box-shadow-blue {
+	box-shadow: 0 1px 1px 0 rgba(16, 13, 31, 0.767), 0 1px 0px 0 rgba(0, 0, 0, 0.19);
+}
+
+.small-square {
+	width: 100px;
+	height: 100px;
+}

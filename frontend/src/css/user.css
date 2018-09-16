@@ -1,0 +1,33 @@
+#span_title {
+    display: inline-block;
+    width: 20%;
+    margin-left: 10px;
+}
+
+#span_firstName {
+    display: inline-block;
+    width: 72%;
+    margin-left: 10px;
+}
+
+#span_middleName {
+    display: inline-block;
+    width: 30%;
+}
+
+#span_lastName {
+    display: inline-block;
+    width: 62%;
+    margin-left: 10px;
+}
+
+#span_password {
+    display: inline-block;
+    width: 45%;
+}
+
+#span_confirmPassword {
+    display: inline-block;
+    width: 47%;
+    margin-left: 10px;
+}
