@@ -58,7 +58,7 @@ export const validateNumber = (number) => {
 
 
 export const validateDate = (date) => {
-    return isNaN(Date.parse(date));
+    return !isNaN(Date.parse(date));
 };
 
 /**

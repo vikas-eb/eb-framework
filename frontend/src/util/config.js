@@ -1,5 +1,5 @@
 export const config = {
-    USE_ENCRYPTION: true,
+    USE_ENCRYPTION: false,
     ENCRYPTION_SALT: 'A37u172sSFS9O9JNHs82u38djdncnvyz9',
     USE_DEBUG: true,
     RUNNING_MODE: 'dev',  // dev, staging, local or prod

@@ -8,6 +8,7 @@ import RegisterComponent from './components/account/RegisterComponent';
 import DashboardComponent from './components/DashboardComponent';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import VerifyActivationHash from './components/VerifyActivationHash';
 
 import {
 	HashRouter,
@@ -37,6 +38,7 @@ class App extends Component {
 										<Route path='/login' component={LoginComponent} />
 										<Route path='/register' component={RegisterComponent} />
 										<Route path='/dashboard' component={DashboardComponent} />
+										<Route path='/verify/:hash' component={VerifyActivationHash} />
 										<Route exact path="/" render={() => (
 												<Redirect to="/dashboard" />
 										)} />
@@ -44,7 +46,7 @@ class App extends Component {
 								</HashRouter>
 							</main>
 
-							{/* <div className='pullDown footer' >Developed and maintained by <a href='http://wwww.edgebits.io'>EdgeBits Technologies LLP</a></div> */}
+							<div className='pullDown footer' >Developed and maintained by <a href='http://wwww.edgebits.io'>EdgeBits Technologies LLP</a></div> 
 						</div>
 					</MuiThemeProvider>
 				</React.Fragment>

@@ -135,57 +135,6 @@ const resizeFile = (fileName, newFileName, returnPath) => {
 };
 
 
-/**
- * @param {*} name the name of the file to be prefixed. Send blank
- * @param {*} uploadFile the actual file to be saved
- * @param {*} extension extension of the file
- */
-
-const saveFileToDisk = (name, uploadFile, extension) => {
-	const randomString = getRandomSalt('', '');
-	let filePath = './uploads/' + name + '-' + randomString + extension;
-	const returnString = '/uploads/' + name + '-' + randomString + extension;
-
-	filePath = path.resolve(filePath);
-
-	return new Promise((resolve, reject) => {
-		uploadFile.files.mv(filePath, function (err) {
-			if (err)
-				reject(err);
-			else {
-				resolve(returnString);
-			}
-		});
-	});
-};
-
-/**
- * @param {Strign} name the name of the file
- * @param {Object} uploadFile
- */
-const saveImageToDisk = (name, file) => {
-	return new Promise((resolve, reject) => {
-		const randomString = getRandomSalt(true);
-
-		let filePath = './uploads/' + name + '-' + randomString + '.png';
-		let shortPath = './uploads/' + name + '-' + randomString + '.short.png';
-		const returnPath = '/uploads/' + name + '-' + randomString + '.short.png';
-	
-		filePath = path.resolve(filePath);
-		shortPath = path.resolve(shortPath);
-	
-		file.mv(filePath, function (err) {
-			if (err)
-				reject(err);
-			else {
-				return resizeFile(filePath, shortPath, returnPath).then(fileName => resolve(fileName))
-				.catch(error => reject(error));
-			}
-		});
-	});
-};
-
-
 const drillDownErrorMessage = (error) => {
 	var errorMessage = error.message;
 
@@ -216,8 +165,6 @@ exports.getNowObject = getNowObject;
 exports.base64Decode = base64Decode;
 exports.drillDownErrorMessage = drillDownErrorMessage;
 exports.resizeFile = resizeFile;
-exports.saveFileToDisk = saveFileToDisk;
-exports.saveImageToDisk = saveImageToDisk;
 exports.isNullOrEmpty = isNullOrEmpty;
 exports.initApp = initApp;
 exports.getRandomSalt = getRandomSalt;

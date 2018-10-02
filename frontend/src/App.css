@@ -6,12 +6,12 @@ input[type="text"], input[type="date"], option
 }
 
 .same-row {
-	display: inline-block;
+	display: inline-block !important;
 }
 
 .pull-right {
 	position: absolute !important;
-	right: 20px;
+	right: 20px !important;
 }
 
 .pull-down {
@@ -40,7 +40,7 @@ input[type="text"], input[type="date"], option
 }
 
 .width70 {
-	width: 30% !important;
+	width: 70% !important;
 }
 
 .full-height {
@@ -56,12 +56,20 @@ input[type="text"], input[type="date"], option
 	margin-top: 10px !important;;
 }
 
+.big-margin-from-top {
+	margin-top: 25px !important;;
+}
+
 .sane-margin-from-top-for-mobile {
 	margin-top: 5px !important;;
 }
 
 .sane-margin-from-left {
 	margin-left: 10px !important;;
+}
+
+.big-margin-from-right {
+	margin-right: 30px !important;;
 }
 
 .sane-margin-from-right {
@@ -81,8 +89,16 @@ input[type="text"], input[type="date"], option
 	margin-bottom: 40px !important;;
 }
 
+.big-margin-from-left {
+	margin-left: 25px !important;;
+}
+
 .no-margin {
 	margin: 0px !important;
+}
+
+.no-padding {
+	padding: 0px !important;
 }
 
 .title {
@@ -91,6 +107,10 @@ input[type="text"], input[type="date"], option
 	text-align: center;
 	line-height: 40px;
 	color: white;
+}
+
+.primary-color {
+	color: #346d91 !important;
 }
 
 .text-middle {
@@ -105,6 +125,10 @@ input[type="text"], input[type="date"], option
 	text-align: left;
 }
 
+.align-top {
+	text-align: top;
+}
+
 .all-borders {
 	border: #346d91 !important;
 	border-width: thin;
@@ -112,10 +136,10 @@ input[type="text"], input[type="date"], option
 
 .align-middle {
 	position: relative;
-  top: 100%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
+	top: 100%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
 }
 
 .footer {
@@ -172,4 +196,66 @@ input[type="text"], input[type="date"], option
 .small-square {
 	width: 100px;
 	height: 100px;
+}
+
+.overlay {
+	background: rgba(0, 0, 0, 0.1);
+}
+
+.hide {
+	display: none;
+}
+
+.circle:before {
+	content: ' \25CF';
+	font-size: 10px;
+}
+
+.profile-menu {
+	height: 400px !important;
+	width: 200px !important;
+	left: unset !important;
+	right: 0px !important;
+	bottom: unset !important;
+}
+
+.menu-bar {
+	height: 30px;
+	background: rgb(233, 228, 228);
+	padding-left: 100px;
+	line-height: 30px;
+	font-size: 12px;
+}
+
+.menu-bar .header {
+	color: #346d91;
+	margin-left: 50px;
+}
+
+.menu-bar .child {
+	color: #346d91;
+	text-decoration: none;
+}
+
+
+.no-underline {
+	text-decoration: none;
+}
+
+.menu-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.menu-dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 100;
+}
+
+.menu-dropdown:hover .menu-dropdown-content {
+    display: block;
 }

@@ -1,11 +1,13 @@
-var express = require('express');
-var router = express.Router();
-var dal = require('../data/dal');
+const express = require('express');
+const router = express.Router();
+const dal = require('../data/dal');
 const db = require('../models/index').db;
+const controller = require('../controllers/user');
+
 
 /* GET users listing. */
 router.post('/', function (req, res, next) {
-	console.log('way to go: ', req.session);
+
 	dal.getList(db.User,
 		req.body.where,
 		req.body.order,
@@ -17,13 +19,18 @@ router.post('/', function (req, res, next) {
 });
 
 
+router.post('/save', (req, res) => {
+	console.log('saving data: ');
+	dal.saveData(db.User, req.body, req, res);
+});
+
+
 router.post('/:id', function (req, res, next) {
 	if (!req.body.where) {
 		req.body.where = [];
 	}
 
 	req.body.where.push({ Id: req.params.id});
-	console.log('hey: ', req.body);
 
 	dal.getList(db.User,
 		req.body.where,

@@ -1,4 +1,7 @@
+const codes = require('./codes').codes;
+const responseHelper = require('./response.helper');
 const nodeMailer = require('nodemailer');
+const template = require('../templates');
 
 const transporter = nodeMailer.createTransport({
 	service: 'gmail',
@@ -37,4 +40,17 @@ const sendEmail = (to, cc, subject, html, attachments) => {
 	});
 };
 
+
+const sendEmailWithTemplate = (res, emailType, name, hash, to, successMessage) => {
+	const emailContent = template.getTemplate(emailType, name, hash);
+
+	emailContent.then(emailData => {
+		sendEmail(to, '', emailData.subject, emailData.body).then(emailSuccess => {
+			responseHelper.success(res, codes.SUCCESS, [], successMessage);
+		}).catch(error => responseHelper.error(res, error, codes.ERROR));
+	}).catch(error => responseHelper.error(res, error, codes.ERROR));
+}
+
+
 exports.sendEmail = sendEmail;
+module.exports.sendEmailWithTemplate = sendEmailWithTemplate;

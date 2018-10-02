@@ -5,6 +5,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 import { CircularProgress, Snackbar } from '@material-ui/core';
+import { Slide } from '@material-ui/core';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import '../../css/dialog.css';
@@ -27,8 +28,6 @@ class CustomDialog extends React.Component {
 	constructor(props) {
 		super(props);
 
-		console.log('constie called');
-
 		this.state = {
 			emailStatus: this.emailTypes.INITIAL_STATE,
 			dialogOpen: true
@@ -37,8 +36,6 @@ class CustomDialog extends React.Component {
 
 
 	componentWillReceiveProps(nextProps) {
-		console.log('this: ', this.props);
-		console.log('next: ', nextProps);
 	}
 
 
@@ -90,14 +87,18 @@ class CustomDialog extends React.Component {
 		}, 2000);
 	};
 
+	Transition = (props) => {
+		return <Slide direction="up" {...props} />;
+	};
+
 
 	render() {
 		const zIndex = this.props.zIndex ? this.props.zIndex : 1000;
-		console.log('hello: ', this.state.dialogOpen);
 		
+		debugger;
 		if (this.props.messageType === 2) {
 			return (
-				<Dialog open={this.state.dialogOpen} onClose={this.handleCancel} aria-labelledby="simple-dialog-title" PaperProps={{
+				<Dialog open={this.state.dialogOpen} aria-labelledby="simple-dialog-title" PaperProps={{
 					style: {
 					  backgroundColor: 'transparent',
 					  boxShadow: 'none',
@@ -106,6 +107,35 @@ class CustomDialog extends React.Component {
 					<div className='transparent'><CircularProgress/></div>
 				</Dialog>
 			);
+		}
+		else if (this.props.messageType === 4) {
+
+			// 4 is custom popup, means there has to be a component supplied in props
+			// it should send height/width properties
+
+			// the open / close will be controlled by the props, not the state
+
+			return (
+				<Dialog id='dlgCustom' open={true}
+					PaperProps={{
+						style: {
+							width: '90%',
+							margin: '10px'
+						}
+					}}
+					TransitionComponent={this.Transition}
+				>
+					<DialogTitle id="dialog-title" className='dialog-title'>
+						<div className='same-row dialog-title-text'>{this.props.title}</div>
+						<div className='same-row pull-right show-hand'>
+							<a onClick={this.handleCancel}>
+								<i className="material-icons">highlight_off</i>
+							</a>
+						</div>
+					</DialogTitle>
+					{this.props.element}
+				</Dialog>
+			)
 		}
 		else {
 

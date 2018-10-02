@@ -1,4 +1,5 @@
 const logger = require('./logger');
+const util = require('./helper');
 
 const jsonFormat = {
     code: -1,
@@ -49,7 +50,7 @@ const success = (res, code, data, message, baseId) => {
 const error = (res, error, errorCode, source) => {
     const json = JSON.parse(JSON.stringify(jsonFormat));
     json.code = errorCode ? errorCode : 502;
-    json.message = error.message;
+    json.message = util.drillDownErrorMessage(error);
     json.error = error;
 
     console.log('error: ', error);

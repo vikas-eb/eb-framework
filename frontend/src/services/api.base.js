@@ -8,7 +8,6 @@ const collectionData = {};
 
 const validateResponse = (response) => {
     return response.text().then((responseText) => {
-        console.log('data: ', responseText);
         const responseData = JSON.parse(responseText)
         return responseData;
     });
@@ -21,7 +20,7 @@ const validateResponse = (response) => {
  * @param {Object} body the body, like the date range, etc
  * @param {Boolean} forDropdown if true, we will send server to return like 10000 rows so it returns all the values
  */
-export const getList = (url, postData, forDropdown) => {
+export const getList = (url, postData, forDropdown, dropdownSortField='Name') => {
     const headers = util.getMandatoryRequestHeaders();
     let body = JSON.parse(JSON.stringify(postData));
 
@@ -49,7 +48,7 @@ export const getList = (url, postData, forDropdown) => {
 
     if (forDropdown) {
         body.rowsToReturn = 10000;
-        body.order = ['Email'];
+        body.order = [dropdownSortField];
         body.lastSent = collectionData[url] ? collectionData[url].date : '';
     }
 
@@ -129,7 +128,7 @@ export const token = (url, body) => {
 };
 
 
-const save_override = (url, requestOptions) => {
+const post_override = (url, requestOptions) => {
     console.log('ooo:', requestOptions);
     return new Promise((resolve, reject) => {
         fetch(url, requestOptions)
@@ -164,14 +163,14 @@ const save_override = (url, requestOptions) => {
  * @param {String} body the data to be saved
  * @param {Boolean} guarded mostly true, it will mean that we will need to include the auth token from session manager. If false, means it's a request where we don't need auth, for example, forgot password or register
  */
-export const save = (url, body, guarded) => {
+export const post = (url, body, guarded) => {
     const requestOptions = {
         method: 'POST',
         headers: util.getMandatoryRequestHeaders(guarded),
         body: JSON.stringify(body)
     };
 
-    return save_override(url, requestOptions);
+    return post_override(url, requestOptions);
 };
 
 
@@ -180,7 +179,7 @@ export const save = (url, body, guarded) => {
  * @param {String} body the data to be saved
  * @param {Boolean} guarded mostly true, it will mean that we will need to include the auth token from session manager. If false, means it's a request where we don't need auth, for example, forgot password or register
  */
-export const saveImage = (url, image, guarded) => {
+export const postImage = (url, image, guarded) => {
     const formData = new FormData();
 
     if (!util.isValidImage(image)) {
@@ -198,7 +197,5 @@ export const saveImage = (url, image, guarded) => {
         body: formData
     };
 
-    return save_override(url, requestOptions);
+    return post_override(url, requestOptions);
 };
-
-

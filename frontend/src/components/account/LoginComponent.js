@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import queryString from 'query-string'
 
 import '../../css/login.css';
+import '../../css/forgot.password.css';
 import * as sessionManager from '../../util/sessionManager'
 
 import TextField from '@material-ui/core/TextField';
@@ -12,10 +13,11 @@ import { Button, Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core';
 
 import CustomSnackBar from '../shared/CustomSnackbar';
-import { login, errored, initialize } from '../../actions/userActions'
+import * as userTypes from '../../actionTypes/userTypes';
+import { login, errored, initialize, loggedIn } from '../../actions/userActions'
 import ComponentWrapper from '../ComponentWrapper';
-import EditUIContainer from '../EditUIContainer';
-import DashboardComponent from '../DashboardComponent';
+import Link from 'react-router-dom/Link';
+import { ForgotPassword } from './ForgotPassword';
 
 const styles = () => ({
 	root: {
@@ -51,15 +53,25 @@ class LoginComponent extends ComponentWrapper {
         this._showSnackbar = true;
 
         this.state = {
-            userName: 'vikasbhandari2@gmail.com',
-            password: 'password',
+            userName: 'vikas@edgebits.io',
+            password: '@Shiv17291',
             currentState: 'Guest',
             showLoader: false,
-            showRegistrationForm: false,
+            showTestForm: false,
             showResetPassowrdForm: false,
-        }; 
+        };
 
+
+        // let's clear the sessions
+
+        sessionManager.clear();
         this.props.initialize();
+    };
+
+
+    resetPassword = event => {
+        this._showSnackbar = false;
+        this.setState({ showResetPassowrdForm: true });
     };
 
 
@@ -88,7 +100,7 @@ class LoginComponent extends ComponentWrapper {
 
     test = () => {
         this.setState({
-            showRegistrationForm: true
+            showTestForm: true
         });
     };
 
@@ -108,14 +120,14 @@ class LoginComponent extends ComponentWrapper {
 
     render() {
         const { userName, password} = this.state;
-        const { user, classes } = this.props;
+        const { user, classes, message } = this.props;
 
-        let { status, error } = this.props;
-
+        let { type, error } = this.props;
         let snackbar = '';
 
+        console.log('snackie: ', this._showSnackbar);
 
-        if (this.props.location.search && this._showSnackbar) {
+        if (this.props.location && this.props.location.search && this._showSnackbar) {
             const values = queryString.parse(this.props.location.search);
             if (values.ref === 'nouser') {
                 snackbar = 'No Login information found. Please login again';
@@ -128,12 +140,18 @@ class LoginComponent extends ComponentWrapper {
         }
 
         try {
-            if (status === 'loginSuccess') {
+            debugger;
+            if (type === userTypes.LOGIN_SUCCESS && user && user.token) {
                 // logged in.
-
+                console.log('user: ', user);
+            
                 sessionManager.saveToken(user.token);
                 sessionManager.saveUser(user);
                 sessionManager.saveEmail(user.Email);
+
+                setTimeout(() => {
+                    this.props.loggedIn();
+                }, 100);
 
                 return (<Redirect to="dashboard" />);
             }
@@ -144,8 +162,6 @@ class LoginComponent extends ComponentWrapper {
             sessionManager.clear();
             this.props.errored(err);
         }
-
-        const dashboardComponent = <DashboardComponent />
 
         return (
 
@@ -167,8 +183,9 @@ class LoginComponent extends ComponentWrapper {
                                 </Grid>
                                     
                                 <Grid item className='align-right sane-margin-from-right'>
-                                    <a href='/register' className='links align-left'>Register</a>&nbsp;
-                                    <a href='/forgotPassword' className='links align-left'>Forgot Password</a> 
+                                    <Link to='/register'className='links align-left'>Register</Link>
+                                    &nbsp;
+                                    <a className='links align-left' onClick={this.resetPassword}>Forgot Password</a> 
                                     <Button color='primary' variant="contained" className='sane-margin-from-left sane-margin-from-bottom text-right' onClick={this.onSubmit} >
                                         Login
                                     </Button>
@@ -181,11 +198,14 @@ class LoginComponent extends ComponentWrapper {
                     </Grid>
                 </Grid>
 
-                {this._showSnackbar && <CustomSnackBar message={snackbar}/>}
-                {this.state.showRegistrationForm && <EditUIContainer component={dashboardComponent} open={true} title='Add/Edit User' /> }
+                {this._showSnackbar && snackbar && snackbar.length > 0 && <CustomSnackBar message={snackbar}/>}
                 {this.showError('login', error)}
-                {this.showPopup('','')}
-                {status === 'requested' && this.showLoader()}
+                { this.showPopup('','') }
+                { type === userTypes.LOGIN_REQUESTED && this.showLoader() }
+                { this.state.showResetPassowrdForm ? this.showComponentInADialog(
+                    <ForgotPassword
+                        className='forgot-password-panel'
+                    />, 'Forgot Password') : ''}
             </div>
         );
     }
@@ -200,10 +220,9 @@ LoginComponent.propTypes = {
 
 
 const mapStateToProps = (state) => {
-    debugger;
-    const { status, error, user } = state.authReducer;
-    return { status, error, user };
+    const { type, error, user } = state.userReducer;
+    return { type, error, user };
 };
 
-const connectedLoginPage = withStyles(styles)(connect(mapStateToProps, { login, errored, initialize })(LoginComponent));
+const connectedLoginPage = withStyles(styles)(connect(mapStateToProps, { login, errored, loggedIn, initialize })(LoginComponent));
 export { connectedLoginPage as LoginComponent };

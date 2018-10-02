@@ -1,11 +1,11 @@
 import React from 'react';
-import { TextField, MenuItem } from '@material-ui/core';
+import { TextField, MenuItem, InputAdornment } from '@material-ui/core';
 import { withStyles } from '@material-ui/core';
 import * as util from '../../util/util';
 
 const styles = () => ({
     root: {
-        width: '90%',
+        width: '100%',
         marginTop: '0px',
         marginLeft: '0px',
     },
@@ -13,6 +13,8 @@ const styles = () => ({
 
 
 class FormattedTextbox extends React.Component {
+
+    _validated = false;
 
     validated = (type, value) => {
         let validated = true;
@@ -41,6 +43,8 @@ class FormattedTextbox extends React.Component {
             validated = validated && util.validateDate(value);
         }
 
+        this._validated = validated;
+
         return validated;
     };
 
@@ -64,26 +68,26 @@ class FormattedTextbox extends React.Component {
     };
 
 
-    handleChange = (event) => {
+    handleChange = event => {
         if (this.props.onChange) this.props.onChange(event, this.props.id);
     };
 
 
+    onBlur = event => {
+        if (this.props.onBlur) this.props.onBlur(event, this.props.id);
+    };
+
+
     render() {
-        const { classes } = this.props;
+        const { classes, errorText, onValidated, selectOptions, ...other } = this.props;
         return (
             <span id={'span_'+this.props.id}>
             <TextField
+                {...other}
                 type={this.props.type === 'confirm-password' ? 'password' : this.props.type}
-                required={this.props.required} 
                 className={[classes.root, (this.props.className ? this.props.className : '' )].join(' ')}
-                select={this.props.select}
-                label={this.props.label}
-                id={this.props.id}
-                label={this.props.label}
+                onBlur={this.onBlur}
                 onChange={this.handleChange}
-                defaultValue={this.props.defaultValue}
-                value={this.props.value}
                 InputLabelProps={{
                     style: {
                       color: this.getTextColor(),
@@ -91,7 +95,14 @@ class FormattedTextbox extends React.Component {
                     },
                     shrink: this.props.type === 'date' ? true : undefined
                 }}
-                >
+
+                InputProps={this.props.showEdorment ? { 
+                    endAdornment: 
+                        <InputAdornment position="end">
+                            {(this.props.validated && this._validated) ? <i className="material-icons" style={{color: 'green', fontSize: '12px'}} >done_outline</i> : <i className="material-icons" style={{color: 'red', fontSize: '12px'}}>error_outline</i>}
+                            
+                        </InputAdornment>
+                    } : {}}>
                     {
                         this.props.selectOptions ? (
                             this.props.selectOptions.map(option => {

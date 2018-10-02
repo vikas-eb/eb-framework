@@ -4,6 +4,16 @@ const responseHelper = require('../util/response.helper');
 const sessionHelper = require('../util/session.helper');
 
 
+const getExcludedAttributes = (model) => {
+    switch(model.name.toLowerCase()) {
+        case 'user':
+            return { exclude: ['Password, ActivationHash, PasswordHash'] }; 
+    }
+
+    return {};
+};
+
+
 /**
  * The function will eventually return the list of data for the model asked. It will also filter & sort the data, and will also include the child table(s) data in the list
  *  
@@ -25,6 +35,13 @@ const getList = (model,
                     res) => {
     const promise = new Promise((resolve, reject) => {
         try {
+
+            /**
+             * for user, please don't return the password and hashes for security
+             */
+
+            const excludedAttributes = getExcludedAttributes(model);
+
             if (!pageIndex) pageIndex = 0;
             if (typeof rowsToReturn === 'undefined') rowsToReturn = config.DB_ROWS_LIMIT;
 
@@ -38,6 +55,7 @@ const getList = (model,
                      // dirty, fetch collection
                      model.findAndCountAll({
                         include,
+                        attibutes: excludedAttributes,
                         where,
                         order,
                         limit: rowsToReturn,
@@ -52,6 +70,7 @@ const getList = (model,
             else {
                 model.findAndCountAll({
                     include,
+                    attibutes: excludedAttributes,
                     where,
                     order,
                     limit: rowsToReturn,

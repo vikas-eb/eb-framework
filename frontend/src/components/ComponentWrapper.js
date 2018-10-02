@@ -1,7 +1,7 @@
 import React from 'react';
 import * as sessionManager from '../util/sessionManager';
 import CustomDialog from './shared/CustomDialog';
-import Snackbar from '@material-ui/core/Snackbar';
+import { Redirect } from 'react-router';
 
 export default class ComponentWrapper extends React.Component {
     _showSnackbar = false;
@@ -21,7 +21,8 @@ export default class ComponentWrapper extends React.Component {
         error: 0,
         confirm: 1,
         loader: 2,
-        popup: 3
+        popup: 3,
+        custom: 4
     };
 
 
@@ -38,6 +39,7 @@ export default class ComponentWrapper extends React.Component {
 
         if (!token || !email || !user) {
             // invalid session
+            console.log('not logged in, returning....')
             return false;
         }
 
@@ -48,6 +50,7 @@ export default class ComponentWrapper extends React.Component {
         }
 
         // passed all the checks
+        console.log('logged in, returning....')
         return true;
     };
 
@@ -60,11 +63,10 @@ export default class ComponentWrapper extends React.Component {
     };
 
 
-    showError = (callingUI, error, callback) => {
-        console.log('error called: ', error);
+    showError = (callingUI, error, handleAction) => {
         if (error && error.message) {
             return (
-                <CustomDialog onActionTaken={callback ? callback : this.onActionTaken} title={'Error Found from UI: ' + callingUI} message={error.message} messageType={this.dialogTypes.error}/>
+                <CustomDialog onActionTaken={handleAction ? handleAction : this.onActionTaken} title={'Error Found from UI: ' + callingUI} message={error.message} messageType={this.dialogTypes.error}/>
             );
         }
         else {
@@ -74,7 +76,14 @@ export default class ComponentWrapper extends React.Component {
 
 
     showConfirm = (title, message, handleAction) => {
-        <CustomDialog onActionTaken={handleAction} open={this.props.open} title={title} message={message} messageType={this.dialogTypes.confirm} />
+        if (message) {
+            return (
+                <CustomDialog onActionTaken={handleAction ? handleAction : this.onActionTaken} title={title} message={message} messageType={this.dialogTypes.popup}/>
+            );
+        }
+        else {
+            return '';
+        }
     };
 
 
@@ -89,10 +98,13 @@ export default class ComponentWrapper extends React.Component {
 
     /**
      * @param {JSX} element this will be a jsx element which will be fixed in a dialog
+     * 
      */
 
-    showComponentInADialog = (element) => {
-
+    showComponentInADialog = (element, title, handleAction) => {
+        return (
+            <CustomDialog onActionTaken={handleAction ? handleAction : this.onActionTaken} title={title} element={element} messageType={this.dialogTypes.custom} />
+        )
     }
 
 

@@ -1,0 +1,13 @@
+.menu-height {
+    height: 20px !important;
+    line-height: 20px !important;
+}
+
+.dropdown-wrapper {
+    max-height: 200px !important;
+    z-index: 100;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    border: thin;
+    border-color: aliceblue;
+}

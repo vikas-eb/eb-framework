@@ -34,7 +34,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -61,9 +61,11 @@ app.post('/token', function (req, res) {
 
 // for middleware, none goes without auth
 app.use('/api', function (req, res, next) {
-	//middleware.entry(req, res, next);
-	next();
+	middleware.entry(req, res, next);
 });
+
+// for middleware, none goes without auth
+app.use('/opr', require('./routes/freeRoutes'));
 
 /** routing */
 app.use('/api/user', require('./routes/user'));

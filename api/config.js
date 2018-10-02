@@ -13,7 +13,10 @@ const config = {
     LOGS_TO_ACCUMULATE: 0,
     ENCRYPTION_SALT: 'A37u172sSFS9O9JNHs82u38djdncnvyz9',
     OPR_KEY: 'JHJH54EWDGCKHLKJhhhgg655544fdFCghklkhjoi9',
-    DB_ROWS_LIMIT: 50
+    DB_ROWS_LIMIT: 50,
+    DEBUG: true,
+    DEBUG_URL: 'http://localhost:3000/#',
+    PROD_URL: 'http://ebframework.edgebits.io/#'
 };
 
 const sequelizeConfig = {

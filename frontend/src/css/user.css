@@ -1,4 +1,4 @@
-#span_title {
+/* #span_title {
     display: inline-block;
     width: 20%;
     margin-left: 10px;
@@ -31,3 +31,19 @@
     width: 47%;
     margin-left: 10px;
 }
+
+
+#span_city {
+    display: inline-block;
+    width: 30%;
+}
+
+#span_state {
+    display: inline-block;
+    width: 20%;
+}
+
+#span_zip {
+    display: inline-block;
+    width: 20%;
+} */

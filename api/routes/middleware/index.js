@@ -53,7 +53,7 @@ const entry = (req, res, next) => {
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
 
     if (token) {
-        jwt.verify(token, config.config.secret, function (err, decoded) {
+        jwt.verify(token, config.config.SECRET, function (err, decoded) {
 
             if (err) {
                 // the error while decoding the token
@@ -61,16 +61,6 @@ const entry = (req, res, next) => {
                 return;
             }
             else {
-
-                // decoded object has to have expiration key, username and injection key
-
-                if (typeof decoded.expiresAt === 'undefined' ||
-                        typeof decoded.userName === 'undefined' ||
-                        typeof decoded.injectedKey === 'undefined'
-                    ) {
-                    responseHelper.invalidToken(res);
-                    return;
-                }
 
                 // decoded data should match with the injected key 
 

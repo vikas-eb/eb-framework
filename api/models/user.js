@@ -22,6 +22,7 @@ module.exports = function (sequelize, DataTypes) {
 		Gender: DataTypes.STRING,
 		ActivationHash: DataTypes.STRING,
 		PasswordHash: DataTypes.STRING,
+		PasswordHashValidTill: DataTypes.DATE,
 		Active: DataTypes.BOOLEAN,
 		ProfilePic: DataTypes.STRING,
 		CreatedBy: DataTypes.INTEGER,

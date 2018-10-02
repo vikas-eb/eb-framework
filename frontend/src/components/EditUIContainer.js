@@ -3,7 +3,6 @@ import ComponentWrapper from './ComponentWrapper';
 import { withStyles } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
-import ForgotPassword from './account/ForgotPassword';
 import ChangePassword from './account/ChangePassword';
 
 const styles = () => ({
@@ -52,7 +51,6 @@ class EditUIContainer extends ComponentWrapper {
             case uiType.register:
                 return '';
             case uiType.forgotPassword:
-                return <ForgotPassword />;
             case uiType.changePassword:
                 return <ChangePassword />;
         }

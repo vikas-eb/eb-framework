@@ -2,35 +2,44 @@ import React from 'react';
 import ComponentWrapper from './ComponentWrapper';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
+import Header from './shared/Header';
 
 
 class DashboardComponent extends ComponentWrapper {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            anchorEl: null,
+            open: false
+        };
     }
+
 
     render = () => {
         // should be logged in
         try {
             if (!this.loggedIn()) {
                 return (
-                    <Redirect to="/login?nouser" />
+                    <Redirect to="/login?ref=nouser" />
                 );
             }
             else {
-                this.props.loggedIn();
                 return (
-                    <h1>Dashboard page is here</h1>
+                    <div>
+                        <Header title='Dashboard' guardedCall={true}></Header>
+                      </div>
                 )
             }
         }
         catch(error) {
             // errored. make sure the session is clear and redirect to login.
-            this.showError("Dashboard", error , () => {
+            return (this.showError("Dashboard", error , () => {
                 localStorage.clear();
-                this.props.errored(error);
-            });
+                    if (this.props.errored) this.props.errored(error);
+                })
+            )
 
         }
     };

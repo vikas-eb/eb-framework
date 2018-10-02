@@ -1,16 +1,8 @@
-var fso = require('fs');
+const multer = require('multer');
+const fso = require('fs');
 const util = require('./helper');
 const responseHelper = require('./response.helper');
 
-const checkFileExists = (path) => {
-	return new Promise(resolve => {
-		fso.exists(path, function (exists) {
-			resolve(exists);
-		});
-	});
-};
-
-var multer = require('multer');
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -23,12 +15,11 @@ const storage = multer.diskStorage({
 });
 
 
-var upload = multer({ storage: storage });
+const upload = multer({ storage: storage });
 
 
 const init = app => {
 	app.post('/opr/imageUpload', upload.single('avatar'), function (req, res) {
-		console.log('love you: ', req.body);
 		if (!util.isOprVerified(req.body.oprKey)) {
 			// unauthorized, delete the file
 			responseHelper.unauthorized(res);
@@ -38,6 +29,14 @@ const init = app => {
 		}
 	});
 };
+
+
+const checkFileExists = (path) => {
+	return new Promise(resolve => {
+		fso.exists(path, (exists) => resolve(exists));
+	});
+};
+
 
 module.exports.checkFileExists = checkFileExists;
 module.exports.init = init;

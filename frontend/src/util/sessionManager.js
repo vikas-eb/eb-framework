@@ -18,14 +18,12 @@ const saveInSession = (key, value) => {
 
 const getFromSession = (key) => {
     const item = localStorage.getItem(key);
-console.log('thats how it should look like: ', encryption.decryptText(item));
     return (encrypt === true ? encryption.decryptText(item): item);
 };
 
 
 export const getLoggedUser = () => {
     const loggedUserJSON = getFromSession(sessionKeys.LOGGED_USER);
-    console.log('user: ', loggedUserJSON);
     return loggedUserJSON ? JSON.parse(loggedUserJSON) : {};
 };
 
@@ -41,7 +39,7 @@ export const saveUser = (user) => {
 
 
 export const saveEmail = (email) => {
-    saveInSession(sessionKeys.LOGGED_USER_EMAIL, JSON.stringify(email));
+    saveInSession(sessionKeys.LOGGED_USER_EMAIL, email);
 };
 
 
