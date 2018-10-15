@@ -1,15 +1,14 @@
 module.exports = function (sequelize, DataTypes) {
     const accessType = sequelize.define('AccessType', {
       Id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         primaryKey: true,
-        autoIncrement: true
       },
 
       Name: DataTypes.STRING,
       Active: DataTypes.INTEGER,
-      CreatedBy: DataTypes.INTEGER,
-      UpdatedBy: DataTypes.INTEGER,
+      CreatedBy: DataTypes.STRING,
+      UpdatedBy: DataTypes.STRING,
     },
       {
         tableName: 'accessType',

@@ -1,10 +1,10 @@
 import * as userTypes from '../actionTypes/userTypes';
 
 const initialState = {
-        user: {},
-        error: {},
-        type: userTypes.INITIALIZE,
-    };
+    user: {},
+    error: {},
+    type: userTypes.INITIALIZE,
+};
 
 const userReducer = (state, action) => {
     if (typeof state === 'undefined' ) {
@@ -14,7 +14,9 @@ const userReducer = (state, action) => {
     return {
         type: action.type,
         user: action.user,
-        message: action.message
+        users: action.users,
+        message: action.message,
+        recordsCount: action.recordsCount
     };
 };
 

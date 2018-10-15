@@ -1,0 +1,29 @@
+The access management will be uniquely designed. 
+
+
+By default, the access is always designed the following ways:
+
+1. Do I have access to a given module?
+
+2. If I have access to the module, then the further I need to find, what access I have for:
+    2.1 My Records
+    2.2 Other Records
+
+        2.1.1 Do I have access to Insert? If yes, value will be 5
+        2.1.2 Do I have access to delete? If yes, value will be 10
+
+        First we will check if I have access to insert or not. If I dont have access to insert, then this access is nullified because If I cannot create records, I won't be able to view or delete records created by me.
+
+        2.2.1 Do I have view access to other records? If yes, value will be 5
+        2.2.2 Do I have access to edit other records? If Yes, value will be 10
+        2.2.3 Do I have access to delete other records? If yes, value will be 15
+
+3. Record Level acceess: This will be decided by the programmer in the code. For example, an invoice is assigned to Finance department, the production department should not be able to edit it.
+
+
+Now, we need to identify how we will use this access level for the options other than editing or deleting. 
+For example, what if I wanna given someone access to view the invoices information, but not the payment information that comes along with it.
+In this case, I will find what is the access value for viewing other invoices. 20 is written above
+Now 20 means I can view the full invoice information. So I will give 19 to a user, and will implement the special case to invoice access management, that if it is 19, user will get the information without payment
+
+PS Note: For providing access to Access Management Module, I will be setting up 1/0 for access management. So the logic mentioned above will not be applicable for Access Management module

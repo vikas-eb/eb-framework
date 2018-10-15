@@ -3,7 +3,10 @@
     export const REMOVE_USERS =  'REMOVE_USERS';
     export const GET_USER = 'GET_USER';
     export const GET_USERS = 'GET_USERS';
-
+    export const GET_USERS_REQUESTED = 'GET_USERS_REQUESTED';
+    export const GET_USERS_SUCCESS = 'GET_USERS_SUCCESS';
+    export const GET_USERS_ERROR = 'GET_USERS_ERROR';
+    
     export const SAVE_USER_REQUESTED =  'SAVE_USER_REQUESTED';
     export const SAVE_USER_SUCCESS =  'SAVE_USER_SUCCESS';
     export const SAVE_USER_ERROR =  'SAVE_USER_ERROR';

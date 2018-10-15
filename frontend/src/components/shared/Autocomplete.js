@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Popper, MenuList, MenuItem, Grow, Paper } from '@material-ui/core';
+import { Popper, MenuList, MenuItem, Grow, Paper, Button, Grid } from '@material-ui/core';
 import '../../css/autocomplete.css';
 import FormattedTextbox from './FormattedTextbox';
 
@@ -40,7 +40,6 @@ class AutoComplete extends React.Component {
 
 
     selectItem = (id, name, index) => event => {
-        debugger;
         if (this.props.onItemSelected) {
             this.props.onItemSelected(id, name, index);
         }
@@ -87,28 +86,28 @@ class AutoComplete extends React.Component {
 
     render()
     {
+        const {...other} = this.props;
         const stateData = this.state.data;
         const propsData = this.props.data;
 
         let data = stateData;
+        let selectedText = this.state.selectedText === '' ? this.props.selectedText : this.state.selectedText;
 
         if (this.state.selectedText === '' && stateData && stateData.length === 0) {
             data = propsData;
         }
-
-        const ref = this;
-
+        
         return (
-            <div className={this.props.className}>
-                <FormattedTextbox type='text' 
-                    id={'text_' + this.props.id} 
-                    value={this.state.selectedText}
-                    onFocus={this.focusIn}
-                    onBlur={this.focusOut}
-                    className='full-width'
-                    onChange={this.textChanged}
-                    label={this.props.label}
-                    />
+            <div {...other}>
+                        <FormattedTextbox type='text' 
+                            id={'text_' + this.props.id} 
+                            value={selectedText}
+                            onFocus={this.focusIn}
+                            onBlur={this.focusOut}
+                            onChange={this.textChanged}
+                            label={this.props.label}
+                            textStyle={this.props.textStyle} // for sending the style to textbox
+                            />
                     {
                         <Popper 
                             id={'popper'+ this.props.id}
@@ -135,7 +134,8 @@ class AutoComplete extends React.Component {
 AutoComplete.propTypes = {
     data: PropTypes.array.isRequired,
     onItemSelected: PropTypes.func.isRequired,
-    label: PropTypes.string
+    label: PropTypes.string,
+    textClass: PropTypes.string 
 };
 
 export default AutoComplete;

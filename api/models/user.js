@@ -1,11 +1,9 @@
 module.exports = function (sequelize, DataTypes) {
 	const user = sequelize.define('User', {
 		Id: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.STRING,
 			primaryKey: true,
-			autoIncrement: true
 		},
-
 		Email: DataTypes.STRING,
 		Password: DataTypes.STRING,
 		Title: DataTypes.STRING,
@@ -25,8 +23,8 @@ module.exports = function (sequelize, DataTypes) {
 		PasswordHashValidTill: DataTypes.DATE,
 		Active: DataTypes.BOOLEAN,
 		ProfilePic: DataTypes.STRING,
-		CreatedBy: DataTypes.INTEGER,
-		UpdatedBy: DataTypes.INTEGER,
+		CreatedBy: DataTypes.STRING,
+		UpdatedBy: DataTypes.STRING,
 	},
 		{
 			tableName: 'user',

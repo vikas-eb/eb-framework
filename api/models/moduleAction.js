@@ -1,17 +1,16 @@
 module.exports = function (sequelize, DataTypes) {
-    const accessGroup = sequelize.define('AccessGroup', {
+    const module = sequelize.define('Module', {
       Id: {
         type: DataTypes.STRING,
         primaryKey: true
       },
-
       Name: DataTypes.STRING,
       Active: DataTypes.INTEGER,
       CreatedBy: DataTypes.STRING,
       UpdatedBy: DataTypes.STRING,
     },
       {
-        tableName: 'accessGroup',
+        tableName: 'module',
         classMethods: {
           associate: function (Models) {
             // associations can be defined here
@@ -19,5 +18,5 @@ module.exports = function (sequelize, DataTypes) {
         }
       });
 
-    return accessGroup;
+    return module;
   };

@@ -140,7 +140,6 @@ class LoginComponent extends ComponentWrapper {
         }
 
         try {
-            debugger;
             if (type === userTypes.LOGIN_SUCCESS && user && user.token) {
                 // logged in.
                 console.log('user: ', user);
@@ -158,7 +157,6 @@ class LoginComponent extends ComponentWrapper {
         }
         catch(err) {
             // if error, just don't redirect
-            debugger;
             sessionManager.clear();
             this.props.errored(err);
         }

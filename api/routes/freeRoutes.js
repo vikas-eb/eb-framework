@@ -13,6 +13,8 @@ const oprMiddleware = (req, res) => {
         return false;
     }
 
+    req.oprRequest = true;
+
     return true;
 };
 

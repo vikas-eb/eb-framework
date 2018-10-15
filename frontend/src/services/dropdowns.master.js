@@ -1,4 +1,5 @@
 import { getList } from './api.base';
+import { constants } from '../util/constants';
 
 const _countries = ['Afghanistan',
     'Albania',
@@ -222,4 +223,9 @@ export const getCountries = () => {
         resolve(countries);
     });
     
+};
+
+
+export const getUsers = () => {
+    return getList(`${constants.API_URL}/api/user/list`, null, true, 'FirstName,LastName');
 };

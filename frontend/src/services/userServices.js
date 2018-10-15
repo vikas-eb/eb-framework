@@ -40,3 +40,6 @@ export const resetPassword = email => {
 };
 
 
+export const getUsers = postData => {
+    return post(`${constants.API_URL}/api/user/list`, postData, true);
+};

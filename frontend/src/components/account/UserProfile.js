@@ -111,7 +111,6 @@ class UserProfile extends ComponentWrapper {
 
 
     handleImageChange = (id, file) => {
-        debugger;
         this.setState({
             [id]: file,
         });
@@ -138,7 +137,7 @@ class UserProfile extends ComponentWrapper {
     getUserFromState = () => {
 
         const user = {
-            Id: this.props.Id > 0 ? this.props.Id : -1,
+            Id: this.props.Id > 0 ? this.props.Id : undefined,
             FirstName: this.state.firstName,
             LastName: this.state.lastName,
             Title: this.state.title,

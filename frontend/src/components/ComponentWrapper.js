@@ -109,6 +109,7 @@ export default class ComponentWrapper extends React.Component {
 
 
     showLoader = () => {
+        console.log('loader called')
         return (
             <CustomDialog onActionTaken={this.onActionTaken} title='' message='' messageType={this.dialogTypes.loader} />
         );

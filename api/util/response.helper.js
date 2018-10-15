@@ -35,7 +35,7 @@ const invalidToken = res => {
 };
 
 
-const success = (res, code, data, message, baseId) => {
+const success = (res, code, data, message, baseId, recordsCount) => {
     const json = JSON.parse(JSON.stringify(jsonFormat));
     json.code = code;
     json.success = true;
@@ -43,6 +43,7 @@ const success = (res, code, data, message, baseId) => {
     json.message = message;
     json.baseId = baseId;
     json.sentAt = new Date();
+    json.recordsCount = recordsCount;
     sendResponse(res, json);
 };
 
@@ -50,11 +51,8 @@ const success = (res, code, data, message, baseId) => {
 const error = (res, error, errorCode, source) => {
     const json = JSON.parse(JSON.stringify(jsonFormat));
     json.code = errorCode ? errorCode : 502;
-    json.message = util.drillDownErrorMessage(error);
+    json.message = error ? util.drillDownErrorMessage(error) : 'No error info found';
     json.error = error;
-
-    console.log('error: ', error);
-
     logger.logError('', '', error, true);
     sendResponse(res, json);
 };

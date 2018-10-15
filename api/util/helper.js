@@ -136,6 +136,7 @@ const resizeFile = (fileName, newFileName, returnPath) => {
 
 
 const drillDownErrorMessage = (error) => {
+	console.log('error: ', error);
 	var errorMessage = error.message;
 
 	if (error.errors && error.errors.length > 0) {
@@ -160,6 +161,14 @@ const isOprVerified = (opr) => {
 };
 
 
+const generateWarning = message => {
+	const error = new Error(message);
+	error.warning = true;
+
+	return error;
+};
+
+
 exports.dateAdd = dateAdd;
 exports.getNowObject = getNowObject;
 exports.base64Decode = base64Decode;
@@ -169,3 +178,4 @@ exports.isNullOrEmpty = isNullOrEmpty;
 exports.initApp = initApp;
 exports.getRandomSalt = getRandomSalt;
 exports.isOprVerified = isOprVerified;
+exports.generateWarning = generateWarning;

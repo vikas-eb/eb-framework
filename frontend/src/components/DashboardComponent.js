@@ -3,7 +3,8 @@ import ComponentWrapper from './ComponentWrapper';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import Header from './shared/Header';
-
+import { EBTable } from './shared/eb-table/EBTable';
+import { getUsers } from '../actions/userActions';
 
 class DashboardComponent extends ComponentWrapper {
 
@@ -12,13 +13,58 @@ class DashboardComponent extends ComponentWrapper {
 
         this.state = {
             anchorEl: null,
-            open: false
+            open: false,
+
+            columns: [{
+                name: 'Id',
+                type: 'string',
+                width: '300px'
+            },
+            {
+                name: 'FirstName',
+                type: 'string',
+            },
+            {
+                name: 'LastName',
+                type: 'string'
+            },
+            {
+                name: 'Email',
+                type: 'string'
+            },
+            {
+                name: 'DOB',
+                type: 'date'
+            },
+            {
+                name: 'Gender',
+                type: 'string'
+            },
+            // {
+            //     name: 'a',
+            //     type: 'string'
+            // },
+            // {
+            //     name: 'b',
+            //     type: 'string'
+            // },
+            // {
+            //     name: 'c',
+            //     type: 'string'
+            // },
+            // {
+            //     name: 'd',
+            //     type: 'string'
+            // },
+            ]
         };
-    }
+    };
 
 
     render = () => {
         // should be logged in
+        const { users, recordsCount } = this.props;
+
         try {
             if (!this.loggedIn()) {
                 return (
@@ -29,7 +75,14 @@ class DashboardComponent extends ComponentWrapper {
                 return (
                     <div>
                         <Header title='Dashboard' guardedCall={true}></Header>
-                      </div>
+
+                        <div>
+                            <EBTable
+                                columns={this.state.columns}
+                                url='/api/user/list'
+                            ></EBTable>
+                        </div>
+                    </div>
                 )
             }
         }
@@ -50,8 +103,8 @@ DashboardComponent.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-    return {};
+    const { users, error, type, recordsCount } = state.userReducer;
+    return { users, error, type, recordsCount };
 };
 
-export default connect(mapStateToProps)(DashboardComponent);
-//export default connect(null, { createPost })(PostForm);
+export default connect(mapStateToProps, { getUsers })(DashboardComponent);

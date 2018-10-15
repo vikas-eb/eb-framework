@@ -16,7 +16,9 @@ const config = {
     DB_ROWS_LIMIT: 50,
     DEBUG: true,
     DEBUG_URL: 'http://localhost:3000/#',
-    PROD_URL: 'http://ebframework.edgebits.io/#'
+    PROD_URL: 'http://ebframework.edgebits.io/#',
+    MODULES: ['User', 'Invoice', 'Payment', 'Expense', 'UserAccess'], // List of all models here. 
+    OPEN_MODULES: [] // this will be the modules which are open totally, and doesn't require special access to save data. For example, registration
 };
 
 const sequelizeConfig = {
@@ -37,7 +39,6 @@ const sequelizeConfig = {
         "multipleStatements": true
       }
 }
-
 
 module.exports.config = config;
 module.exports.sequelizeConfig = sequelizeConfig;

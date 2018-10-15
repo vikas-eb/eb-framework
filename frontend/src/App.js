@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import { Redirect } from 'react-router';
 import { LoginComponent } from './components/account/LoginComponent';
+import { AccessManagement } from './components/AccessManagement';
 import RegisterComponent from './components/account/RegisterComponent';
 import DashboardComponent from './components/DashboardComponent';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -38,6 +39,7 @@ class App extends Component {
 										<Route path='/login' component={LoginComponent} />
 										<Route path='/register' component={RegisterComponent} />
 										<Route path='/dashboard' component={DashboardComponent} />
+										<Route path='/access' component={AccessManagement} />
 										<Route path='/verify/:hash' component={VerifyActivationHash} />
 										<Route exact path="/" render={() => (
 												<Redirect to="/dashboard" />
@@ -46,7 +48,7 @@ class App extends Component {
 								</HashRouter>
 							</main>
 
-							<div className='pullDown footer' >Developed and maintained by <a href='http://wwww.edgebits.io'>EdgeBits Technologies LLP</a></div> 
+							<div className='pullDown footer' >Built with proud in <a target='blank' href='http://wwww.ebframework.com'>EB Framework</a></div> 
 						</div>
 					</MuiThemeProvider>
 				</React.Fragment>

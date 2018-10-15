@@ -1,41 +1,44 @@
 import * as userTypes from '../actionTypes/userTypes';
 import * as userService from '../services/userServices';
+import { post } from '../services/api.base';
 
 
-const dispatchAction = (dispatch, type, user, error, message) => {
+const dispatchAction = (dispatch, type, user, users, error, message, recordsCount) => {
     dispatch({
         type,
         user,
+        users,
         message,
-        error
+        error,
+        recordsCount
     });
 };
 
 
 export const login = (userName, password) => dispatch => {
-    dispatchAction(dispatch, userTypes.LOGIN_REQUESTED, userName, null, null);
+    dispatchAction(dispatch, userTypes.LOGIN_REQUESTED, userName, null , null, null);
     const promise = userService.login(userName, password);
 
     promise.then(data => {
         if (data && !data.errorMessage) {
             console.log('login data: ', data);
-            dispatchAction(dispatch, userTypes.LOGIN_SUCCESS, data.data, null, data.message);
+            dispatchAction(dispatch, userTypes.LOGIN_SUCCESS, data.data, null, null, data.message);
         } else {
-            dispatchAction(dispatch, userTypes.LOGIN_ERROR, null, new Error(data.errorMessage), null);
+            dispatchAction(dispatch, userTypes.LOGIN_ERROR, null, null, new Error(data.errorMessage), null);
         }
     }).catch(error => {
-        dispatchAction(dispatch, userTypes.LOGIN_ERROR, null, error, null);
+        dispatchAction(dispatch, userTypes.LOGIN_ERROR, null, null, error, null);
     });
 };
 
 
 export const errored = (error) => dispatch => {
-    dispatchAction(dispatch, userTypes.LOGIN_ERROR, null, error, null);
+    dispatchAction(dispatch, userTypes.LOGIN_ERROR, null, null, error, null);
 };
 
 
 export const loggedIn = () => dispatch => {
-    dispatchAction(dispatch, userTypes.LOGGED_IN, null, null, null);
+    dispatchAction(dispatch, userTypes.LOGGED_IN, null, null, null, null);
 };
 
 
@@ -64,14 +67,14 @@ export const saveUser = user => dispatch => {
     // image data will only be populated if the user will change the image
 
     if (user.ImageData) {
-        dispatchAction(dispatch, userTypes.UPLOADING_REQUESTED, null, null, null);
+        dispatchAction(dispatch, userTypes.UPLOADING_REQUESTED, null, null, null, null);
         uploadImage(user.ImageData).then(result => {
             delete user.ImageData;
             user.ProfilePic = result;
             // now register
             userSave(user, dispatch);
         }).catch(error => {
-            dispatchAction(dispatch, userTypes.UPLOAD_ERROR, null, error, null);
+            dispatchAction(dispatch, userTypes.UPLOAD_ERROR, null, null, error, null);
         });
         ;
     }
@@ -82,19 +85,19 @@ export const saveUser = user => dispatch => {
 
 
 const userSave = (user, dispatch) => {
-    dispatchAction(dispatch, userTypes.SAVE_USER_REQUESTED, null, null, null);
+    dispatchAction(dispatch, userTypes.SAVE_USER_REQUESTED, null, null, null, null);
 
     const promise = user.Id > 0 ? userService.saveUser(user) : userService.register(user);
 
     promise.then(data => {
         if (data && !data.errorMessage) {
-            dispatchAction(dispatch, userTypes.SAVE_USER_SUCCESS, data.data, null, data.message);
+            dispatchAction(dispatch, userTypes.SAVE_USER_SUCCESS, data.data, null, null, data.message);
         } else {
-            dispatchAction(dispatch, userTypes.SAVE_USER_ERROR, null, new Error(data.errorMessage), null);
+            dispatchAction(dispatch, userTypes.SAVE_USER_ERROR, null, null, new Error(data.errorMessage), null);
         }
 
     }).catch(error => {
-        dispatchAction(dispatch, userTypes.SAVE_USER_ERROR, null, error, null);
+        dispatchAction(dispatch, userTypes.SAVE_USER_ERROR, null, null, error, null);
     });
 };
 
@@ -107,7 +110,7 @@ export const initialize = () => dispatch => {
 
 
 export const checkIfEmailExists = (email) => dispatch => {
-    dispatchAction(dispatch, userTypes.EMAIL_CHECK_REQUESTED, null, null, null);
+    dispatchAction(dispatch, userTypes.EMAIL_CHECK_REQUESTED, null, null, null, null);
 
     userService.checkIfEmailExists(email).then(data => {
         if (data && !data.errorMessage) {
@@ -116,9 +119,9 @@ export const checkIfEmailExists = (email) => dispatch => {
                 null, null, data.message);
         }
         else {
-            dispatchAction(dispatch, userTypes.EMAIL_CHECK_ERROR, null, new Error(data.errorMessage), null);
+            dispatchAction(dispatch, userTypes.EMAIL_CHECK_ERROR, null, null, new Error(data.errorMessage), null);
         }
-    }).catch(error =>dispatchAction(dispatch, userTypes.EMAIL_CHECK_ERROR, null, error, null));
+    }).catch(error =>dispatchAction(dispatch, userTypes.EMAIL_CHECK_ERROR, null, null, error, null));
 };
 
 
@@ -130,19 +133,35 @@ export const redirectToLogin = () => dispatch => {
 
 
 export const verifyActivationHash = activationHash => dispatch => {
-    dispatchAction(dispatch, userTypes.ACTIVATION_HASH_VERIFICATION_REQUESTED, null, null, null);
+    dispatchAction(dispatch, userTypes.ACTIVATION_HASH_VERIFICATION_REQUESTED, null, null, null, null);
 
     userService.verifyActivationHash(activationHash).then(data => {
         if (data && !data.errorMessage && data.data.found === true) {
-            dispatchAction(dispatch, userTypes.ACTIVATION_HASH_VERIFICATION_VERIFIED, null, null, data.message);
+            dispatchAction(dispatch, userTypes.ACTIVATION_HASH_VERIFICATION_VERIFIED, null, null, null, data.message);
         }
         else {
-            dispatchAction(dispatch, userTypes.ACTIVATION_HASH_VERIFICATION_NOT_FOUND, null, new Error(data.errorMessage), null);
+            dispatchAction(dispatch, userTypes.ACTIVATION_HASH_VERIFICATION_NOT_FOUND, null, null, new Error(data.errorMessage), null);
         }
-    }).catch(error => dispatchAction(dispatch, userTypes.ACTIVATION_HASH_VERIFICATION_NOT_FOUND, null, error, null));
+    }).catch(error => dispatchAction(dispatch, userTypes.ACTIVATION_HASH_VERIFICATION_NOT_FOUND, null, null, error, null));
 };
 
 
 export const resetPassword = email => dispatch => {
-    dispatchAction(dispatch, userTypes.PASSWORD_RESET_REQUESTED, null, null, null);
+    dispatchAction(dispatch, userTypes.PASSWORD_RESET_REQUESTED, null, null, null, null);
+};
+
+/**
+ * @param {object} postData It will have information like what page index, and the ordering or filtering information
+ */
+export const getUsers = postData => dispatch => {
+    dispatchAction(dispatch, userTypes.GET_USERS_REQUESTED, null, null, null, null);
+
+    userService.getUsers(postData).then(data => {
+        if (data && !data.errorMessage) {
+            dispatchAction(dispatch, userTypes.GET_USERS_SUCCESS, null, data.data, null, data.message, data.recordsCount);
+        }
+        else {
+            dispatchAction(dispatch, userTypes.GET_USERS_ERROR, null, null, new Error(data.errorMessage), null);
+        }
+    }).catch(error => dispatchAction(dispatch, userTypes.GET_USERS_ERROR, null, null, error, null));
 };

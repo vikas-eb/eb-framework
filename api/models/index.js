@@ -41,6 +41,8 @@ Object.keys(db).forEach(function (modelName) {
 /*** model.belongsTo(anotherModel) ***/
 
 db.User.belongsTo(db.AccessType);
+db.GroupAccess.belongsTo(db.AccessGroup);
+db.UserAccess.belongsTo(db.User);
 
 
 db.sequelize = sequelize;

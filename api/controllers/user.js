@@ -1,21 +1,28 @@
 const db = require('../models/index').db;
 const dal = require('../data/dal');
-const uuid = require('uuid/v4');
 const email = require('../util/email');
 const codes = require('../util/codes').codes;
 const responseHelper = require('../util/response.helper');
 const template = require('../templates');
 const helper = require('../util/helper')
+const uuid = require('uuid/v4')
+
+const Op = require('sequelize').Op;
 
 
 const getUser = (email, password) => {
     return new Promise((resolve, reject) => {
+        const where = {
+            Email: email,
+            Password: db.sequelize.literal(`BINARY Password = '${password}'`),
+            Active: 1,
+            CreatedAt: {
+                [Op.gte]: '1/1/2018'
+            }
+        };
+        console.log('where: ', where);
         db.User.findOne({
-            where: {
-                Email: email,
-                Password: db.sequelize.literal(`BINARY Password = '${password}'`),
-                Active: 1
-            },
+            where,
             attributes: { exclude: ['Password, ActivationHash, PasswordHash'] }
         }).then(user => {
             resolve(user);
@@ -41,17 +48,12 @@ const register = (req, res) => {
 };
 
 
-const saveUser = (req, res) => {
-    
-};
-
-
 const userExists = (req, res) => {
     const where = [];
     where.push({ Email: req.body.email });
 
-    dal.getList(db.User, where).then(result => {
-        console.log('data: ', result);
+    dal.getList(db.User, where, [], [], 100, 0, req).then(result => {
+        
         if (result.rows.length === 0) {
             // no user found
             responseHelper.success(res, codes.SUCCESS, { found: false }, 'User email not found');
@@ -67,7 +69,7 @@ const verifyActivationHash = (req, res) => {
     const where = [];
     where.push({ ActivationHash: req.body.activationHash });
 
-    dal.getList(db.User, where).then(result => {
+    dal.getList(db.User, where, [], [], 100, 0, req).then(result => {
         if (result.rows.length > 0) {
             //user found
 
@@ -99,9 +101,6 @@ const verifyPasswordHash = (req, res) => {
             // user found
 
             // let's make sure that the password is not expired
-
-
-
             const dataToSave = {
                 ActivationHash: '',
                 Active: 1,
@@ -152,7 +151,6 @@ const forgotPassword = (req, res) => {
 
 
 module.exports.getUser = getUser;
-module.exports.saveUser = saveUser;
 module.exports.register = register;
 module.exports.exists = userExists;
 module.exports.verifyActivationHash = verifyActivationHash;

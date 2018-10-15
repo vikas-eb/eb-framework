@@ -79,13 +79,13 @@ class FormattedTextbox extends React.Component {
 
 
     render() {
-        const { classes, errorText, onValidated, selectOptions, ...other } = this.props;
+        const { classes, errorText, textStyle, onValidated, className, selectOptions, ...other } = this.props;
         return (
             <span id={'span_'+this.props.id}>
             <TextField
                 {...other}
                 type={this.props.type === 'confirm-password' ? 'password' : this.props.type}
-                className={[classes.root, (this.props.className ? this.props.className : '' )].join(' ')}
+                className={[classes.root, (className ? className : '' )].join(' ')}
                 onBlur={this.onBlur}
                 onChange={this.handleChange}
                 InputLabelProps={{
@@ -95,7 +95,7 @@ class FormattedTextbox extends React.Component {
                     },
                     shrink: this.props.type === 'date' ? true : undefined
                 }}
-
+                inputProps = {{ style: textStyle }}
                 InputProps={this.props.showEdorment ? { 
                     endAdornment: 
                         <InputAdornment position="end">

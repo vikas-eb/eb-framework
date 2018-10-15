@@ -8,6 +8,13 @@ module.exports.init = (app, session) => {
     this._session = session;
 };
 
+/**
+ * 
+ * @param {*} req the request object
+ * @param {*} model the model which was changed
+ * 
+ * whenever a model is changed, we need to update the collection data and make it dirty. This is to ensure I am not sending collection data back to the client unless I have ot
+ */
 
 module.exports.change = (req, model) => {
     if (!req.session.lastUpdated) {

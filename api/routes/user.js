@@ -5,8 +5,7 @@ const db = require('../models/index').db;
 const controller = require('../controllers/user');
 
 
-/* GET users listing. */
-router.post('/', function (req, res, next) {
+router.post('/list', function (req, res, next) {
 
 	dal.getList(db.User,
 		req.body.where,

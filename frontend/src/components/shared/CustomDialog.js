@@ -94,8 +94,6 @@ class CustomDialog extends React.Component {
 
 	render() {
 		const zIndex = this.props.zIndex ? this.props.zIndex : 1000;
-		
-		debugger;
 		if (this.props.messageType === 2) {
 			return (
 				<Dialog open={this.state.dialogOpen} aria-labelledby="simple-dialog-title" PaperProps={{

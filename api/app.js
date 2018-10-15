@@ -13,8 +13,7 @@ const db = require('./models').db;
 const responseHelper = require('./util/response.helper');
 const session = require('express-session');
 
-  
-var app = express();
+const app = express();
 
 app.use(session({
 	secret: config.ENCRYPTION_SALT,
@@ -69,6 +68,7 @@ app.use('/opr', require('./routes/freeRoutes'));
 
 /** routing */
 app.use('/api/user', require('./routes/user'));
+app.use('/api/useraccess', require('./routes/userAccess'));
 
 util.initApp();
 

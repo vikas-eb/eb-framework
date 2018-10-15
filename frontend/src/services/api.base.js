@@ -21,7 +21,7 @@ const validateResponse = (response) => {
  * @param {Boolean} forDropdown if true, we will send server to return like 10000 rows so it returns all the values
  */
 export const getList = (url, postData, forDropdown, dropdownSortField='Name') => {
-    const headers = util.getMandatoryRequestHeaders();
+    const headers = util.getMandatoryRequestHeaders(true);
     let body = JSON.parse(JSON.stringify(postData));
 
     if (!body || body === {}) {
@@ -48,6 +48,7 @@ export const getList = (url, postData, forDropdown, dropdownSortField='Name') =>
 
     if (forDropdown) {
         body.rowsToReturn = 10000;
+        body.NameField = dropdownSortField;
         body.order = [dropdownSortField];
         body.lastSent = collectionData[url] ? collectionData[url].date : '';
     }
@@ -68,9 +69,9 @@ export const getList = (url, postData, forDropdown, dropdownSortField='Name') =>
                 if (forDropdown) {
                     // if collection not modified, please return a collection from scratch
                     if (data.code === 304) {
-                        // try to return 
-                        const dataFromCache = collectionData[url].data || [];
-                        return resolve(dataFromCache);
+                        // try to return the cached values
+                        data.data = collectionData[url].data || [];
+                        return resolve(data);
                     }
                     else {
                         // store in the cache
@@ -139,7 +140,7 @@ const post_override = (url, requestOptions) => {
                 return resolve(data);
             }
             else {
-                console.log(`faulty data received from the save: `, data);
+                console.warn(`faulty data received from the save: `, data);
 
                 /**
                  * I am intentionally not rejecting it
@@ -169,6 +170,8 @@ export const post = (url, body, guarded) => {
         headers: util.getMandatoryRequestHeaders(guarded),
         body: JSON.stringify(body)
     };
+
+    console.log('dihar tak aaya: ', url);
 
     return post_override(url, requestOptions);
 };
