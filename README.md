@@ -12,3 +12,5 @@ Current Progress:
   Register:
   ![Register Window](http://edgebits.io/backup/images/register.png)
   
+  EB Table: 
+  ![Login Window](http://edgebits.io/backup/images/ebtable.png)
