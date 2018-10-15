@@ -7,7 +7,7 @@ Next month, I will add framework for Mobile too React-Native based.
 
 Current Progress:
   Login: 
-  ![Login Window](http://edgebits.io/backup/images/logi.png)
+  ![Login Window](http://edgebits.io/backup/images/login.png)
   
   Register:
   ![Register Window](http://edgebits.io/backup/images/register.png)
