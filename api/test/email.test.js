@@ -6,7 +6,8 @@ describe("email tests", () => {
 
     it("email goes fine without attachment", done => {
         email.sendEmail('vikasbhandari2@gmail.com, letsdevindia@gmail.com', '', 'Test Subject','The body').then(result => {
-            console.log(result);
+            // both emails are good, so both should be delivered
+            result.accepted.length.should.equal(2, 'Email not delivered to both');
             done();
         }).catch(error => done(error));
     }).timeout(5000);
@@ -14,7 +15,7 @@ describe("email tests", () => {
 
     it("email goes fine with cc but without attachment and subject", done => {
         email.sendEmail('', 'vikasbhandari2@gmail.com, letsdevindia@gmail.com', 'No To and Attachments','The body').then(result => {
-            console.log(result);
+            result.accepted.length.should.equal(2, 'Email not delivered to both');
             done();
         }).catch(error => done(error));
     }).timeout(5000);
@@ -24,7 +25,7 @@ describe("email tests", () => {
         email.sendEmail('', 'vikasbhandari2@gmail.com, letsdevindia@gmail.com', 'The Attachment Test','The body',[{
             path: '../dbnotes.txt'
         }]).then(result => {
-            console.log(result);
+            result.accepted.length.should.equal(2, 'Email not delivered to both');
             done();
         }).catch(error => done(error));
     }).timeout(5000);
